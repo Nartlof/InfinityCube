@@ -42,7 +42,7 @@ module MainCube(side = CubeSide, wall = WallThickness, hole = HingeHole, filDia 
         translate(v = [ (side - cutOffDiameter) / 2 + gap, 0, cutOffDiameter / 2 - gap - side / 2 ])
             rotate([ -90, 0, 0 ]) translate(v = [ 0, 0, -cutOffHeigth / 2 ])
         {
-            translate(v = [ 0, 0, -(side - cutOffHeigth - 1) / 2 + fillet ]) cylinder(h = side + 1, d = filDia);
+            translate(v = [ 0, 0, -(side - cutOffHeigth - 1) / 2 + fillet ]) cylinder(h = side + 1, d = filDia + gap);
             cylinder(h = cutOffHeigth, d = cutOffDiameter);
             for (i = [-1:1])
             {
@@ -94,7 +94,7 @@ module Hinge(side = CubeSide, wall = WallThickness, hole = HingeHole, filDia = F
             translate([
                 i * (2 * fillet + gap) / 2,
                 0,
-            ]) cylinder(h = hingeHeigth + 1, d = hole, center = true);
+            ]) cylinder(h = hingeHeigth + 1, d = hole + gap, center = true);
     }
 }
 
