@@ -15,6 +15,8 @@ HingeHole = 2;
 WallThickness = 2;
 // Gap between cubes
 Gap = 0.4;
+// Extra space on the holes
+HoleGap = 0.4;
 
 // Part to render
 PartToRender = "Assembly"; //["Assembly", "Hinge", "Cube 1", "Cube 2", "Cube 3", "Cube 4"]
@@ -22,7 +24,8 @@ PartToRender = "Assembly"; //["Assembly", "Hinge", "Cube 1", "Cube 2", "Cube 3",
 $fa = ($preview) ? $fa : 2;
 $fs = ($preview) ? $fs : .2;
 
-module MainCube(side = CubeSide, wall = WallThickness, hole = HingeHole, filDia = FilDia, gap = Gap, type = 1)
+module MainCube(side = CubeSide, wall = WallThickness, hole = HingeHole, filDia = FilDia, gap = Gap, holeGap = HoleGap,
+                type = 1)
 {
     module mainCube()
     {
@@ -42,8 +45,17 @@ module MainCube(side = CubeSide, wall = WallThickness, hole = HingeHole, filDia 
         translate(v = [ (side - cutOffDiameter) / 2 + gap, 0, cutOffDiameter / 2 - gap - side / 2 ])
             rotate([ -90, 0, 0 ]) translate(v = [ 0, 0, -cutOffHeigth / 2 ])
         {
-            translate(v = [ 0, 0, -(side - cutOffHeigth - 1) / 2 + fillet ]) cylinder(h = side + 1, d = filDia + gap);
+            // Cuttoff for the fillament inserted as hinge axis
+            translate(v = [ 0, 0, -(side - cutOffHeigth - 1) / 2 + fillet ])
+            {
+                cylinder(h = side + 1, d = filDia + holeGap);
+                // Putting a conical part on the end to hold the fillament by friction
+                translate(v = [ 0, 0, -fillet / 6 ])
+                    cylinder(h = fillet / 6, d1 = (filDia + holeGap) * .9, d2 = filDia + holeGap);
+            }
+            // Round part
             cylinder(h = cutOffHeigth, d = cutOffDiameter);
+            // Square part
             for (i = [-1:1])
             {
                 rotate([ 0, 0, i * 90 ]) cube(size = [ cutOffDiameter / 2, cutOffDiameter / 2, cutOffHeigth ]);
@@ -77,7 +89,7 @@ module MainCube(side = CubeSide, wall = WallThickness, hole = HingeHole, filDia 
     }
 }
 
-module Hinge(side = CubeSide, wall = WallThickness, hole = HingeHole, filDia = FilDia, gap = Gap, type = 1)
+module Hinge(side = CubeSide, wall = WallThickness, hole = HingeHole, gap = Gap, holeGap = HoleGap)
 {
     fillet = wall + hole / 2;
     hingeHeigth = side - 2 * (fillet + wall);
@@ -94,11 +106,11 @@ module Hinge(side = CubeSide, wall = WallThickness, hole = HingeHole, filDia = F
             translate([
                 i * (2 * fillet + gap) / 2,
                 0,
-            ]) cylinder(h = hingeHeigth + 1, d = hole + gap, center = true);
+            ]) cylinder(h = hingeHeigth + 1, d = hole + holeGap, center = true);
     }
 }
 
-// Hinge();
+// Main part
 
 if (PartToRender == "Assembly")
 {
