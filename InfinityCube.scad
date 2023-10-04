@@ -3,12 +3,13 @@
  *
  * Author: Carlos Eduardo Foltran
  * GitHub: https://github.com/Nartlof/InfinityCube
- * Thingiverse: [Thingiverse Project URL]
+ * Thingiverse: https://www.thingiverse.com/thing:6249758
  * License: Creative Commons CC0 1.0 Universal (CC0 1.0)
  * Description: Infinity cube toy that requires assembly and can be made with mixed collors.
  *
  * Date Created: 2023-09-28
- * Last Updated: 2023-10-01
+ * Update: 2023-10-01
+ * Last Updated: 2023-10-04
  *
  * This OpenSCAD file is provided under the Creative Commons CC0 1.0 Universal (CC0 1.0) License.
  * You are free to use, modify, and distribute this design for any purpose, without any restrictions.
